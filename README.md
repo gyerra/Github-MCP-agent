@@ -175,7 +175,7 @@ Your GitHub token should have the following scopes:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [GitHub MCP Server](https://github.com/github/github-mcp-server) for providing GitHub tools
 - [LangChain](https://langchain.com/) for the AI framework
@@ -183,5 +183,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Model Context Protocol](https://modelcontextprotocol.io/) for the MCP standard
 
 ---
-
-**Made with ❤️ for the GitHub community** 
