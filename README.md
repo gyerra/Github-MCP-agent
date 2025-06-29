@@ -15,6 +15,7 @@ A powerful AI-powered GitHub assistant that leverages the Model Context Protocol
 - **🤖 AI-Powered**: Natural language interface powered by Claude 3.5 Sonnet
 - **🔗 MCP Integration**: Seamless integration with GitHub via Model Context Protocol
 - **🐳 Docker Ready**: Easy deployment with Docker containerization
+- **🔒 Secure**: Environment variable configuration for sensitive tokens
 
 ## 🚀 Quick Start
 
@@ -39,11 +40,20 @@ A powerful AI-powered GitHub assistant that leverages the Model Context Protocol
 
 3. **Set up your GitHub token**
    ```bash
-   # Create a .env file
-   echo "GITHUB_PERSONAL_ACCESS_TOKEN=your_token_here" > .env
+   # Copy the example environment file
+   cp .env.example .env
+   
+   # Edit the .env file and add your GitHub token
+   # Replace 'your_github_token_here' with your actual token
    ```
 
-4. **Pull the GitHub MCP server**
+4. **Create a GitHub Personal Access Token**
+   - Go to [GitHub Settings > Tokens](https://github.com/settings/tokens)
+   - Click "Generate new token (classic)"
+   - Select the required scopes (see Configuration section below)
+   - Copy the token and paste it in your `.env` file
+
+5. **Pull the GitHub MCP server**
    ```bash
    docker pull ghcr.io/github/github-mcp-server
    ```
@@ -58,7 +68,7 @@ python app.py
 #### Option 2: Docker deployment
 ```bash
 docker build -t github-mcp-agent .
-docker run -e GITHUB_PERSONAL_ACCESS_TOKEN=your_token_here github-mcp-agent
+docker run --env-file .env github-mcp-agent
 ```
 
 ## 💬 Usage Examples
@@ -91,6 +101,8 @@ Github-MCP-agent/
 ├── github_mcp.py       # MCP client setup and configuration
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile         # Docker container configuration
+├── .env.example       # Example environment variables
+├── .gitignore         # Git ignore rules
 └── README.md          # This file
 ```
 
@@ -98,7 +110,15 @@ Github-MCP-agent/
 
 ### Environment Variables
 
-- `GITHUB_PERSONAL_ACCESS_TOKEN`: Your GitHub personal access token with appropriate permissions
+Create a `.env` file in the project root with the following variables:
+
+```env
+# GitHub Personal Access Token
+GITHUB_PERSONAL_ACCESS_TOKEN=your_actual_github_token_here
+
+# Optional: Anthropic API Key (if not set, will use default)
+# ANTHROPIC_API_KEY=your_anthropic_key_here
+```
 
 ### Required GitHub Token Permissions
 
@@ -112,23 +132,36 @@ Your GitHub token should have the following scopes:
 
 ### Common Issues
 
-1. **Docker not running**
+1. **Missing GitHub token**
+   ```
+   Error: GITHUB_PERSONAL_ACCESS_TOKEN environment variable is not set
+   Solution: Create a .env file with your GitHub token
+   ```
+
+2. **Docker not running**
    ```
    Error: Docker is required for MCP server communication
    Solution: Start Docker Desktop or Docker daemon
    ```
 
-2. **Invalid GitHub token**
+3. **Invalid GitHub token**
    ```
    Error: Authentication failed
    Solution: Verify your token has correct permissions and is valid
    ```
 
-3. **MCP server not found**
+4. **MCP server not found**
    ```
    Error: Unable to pull GitHub MCP server
    Solution: Run: docker pull ghcr.io/github/github-mcp-server
    ```
+
+## 🔒 Security
+
+- **Never commit your `.env` file** - it's already in `.gitignore`
+- **Use environment variables** for all sensitive tokens
+- **Rotate your GitHub token** regularly
+- **Use minimal required permissions** for your GitHub token
 
 ## 🤝 Contributing
 

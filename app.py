@@ -8,33 +8,10 @@ from typing import TypedDict, Annotated, Sequence
 from langgraph.graph.message import add_messages
 from langchain_core.messages import BaseMessage
 
+# Import the setup function from github_mcp.py
+from github_mcp import setup_mcp_client_and_tools
 
-from langchain_mcp_adapters.client import MultiServerMCPClient
-async def setup_mcp_client_and_tools():
-    """Setup MCP client and load tools"""
-    mcp_config = {
-        "github": {
-            "command": "docker",
-            "args": [
-                "run",
-                "-i",
-                "--rm",
-                "-e",
-                "GITHUB_PERSONAL_ACCESS_TOKEN",
-                "ghcr.io/github/github-mcp-server"
-            ],
-            "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
-            },
-            "transport": "stdio"
-        }
-    }
-    
-    client = MultiServerMCPClient(mcp_config)
-    
-    tools = await client.get_tools()
-    
-    return client, tools
+# Load environment variables
 load_dotenv()
 
 class AgentState(TypedDict):

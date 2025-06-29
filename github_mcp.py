@@ -1,8 +1,21 @@
+import os
 from langchain_mcp_adapters.client import MultiServerMCPClient
-# import os 
-# token = str(os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")) uff idk why this method not working
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
 async def setup_mcp_client_and_tools():
     """Setup MCP client and load tools"""
+    # Get GitHub token from environment variable
+    github_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    
+    if not github_token:
+        raise ValueError(
+            "GITHUB_PERSONAL_ACCESS_TOKEN environment variable is not set. "
+            "Please create a .env file with your GitHub token or set the environment variable."
+        )
+    
     mcp_config = {
         "github": {
             "command": "docker",
@@ -15,7 +28,7 @@ async def setup_mcp_client_and_tools():
                 "ghcr.io/github/github-mcp-server"
             ],
             "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+                "GITHUB_PERSONAL_ACCESS_TOKEN": github_token
             },
             "transport": "stdio"
         }
